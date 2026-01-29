@@ -1,9 +1,14 @@
-import { View, Text, TextInput,StyleSheet,TouchableOpacity} from 'react-native'
-import React ,{useEffect} from 'react'
+import { View, Text, TextInput,StyleSheet,TouchableOpacity, ToastAndroid} from 'react-native'
+import React ,{useEffect,useState} from 'react'
 import {useNavigation} from "expo-router"
 import {Colors} from  "./../../../constants/Colours"
 import { useRouter } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import {auth} from "./../../../configs/firebaseConfig";
+
+
 
 export default function SignIn() {
     const navigation = useNavigation()
@@ -13,6 +18,34 @@ export default function SignIn() {
             headerShown:false
         })
     },[])
+
+    const [email,setEmail]=useState();
+    const [password,setPassword] = useState();
+
+
+    const onSignIn =()=>{
+
+        if(!email || !password){
+            ToastAndroid.show("Please enter email & password",ToastAndroid.LONG);
+            return ;
+        }
+        signInWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // Signed in 
+             const user = userCredential.user;
+             console.log(user);
+            // ...
+           })
+          .catch((error) => {
+             const errorCode = error.code;
+             const errorMessage = error.message;
+             console.log(errorMessage);
+             if(errorCode=='auth/invalid-credentials'){
+                ToastAndroid.show("Invalid Credentials",ToastAndroid.LONG)
+             }
+             
+           });
+    }
 
   return (
     <View style={{
@@ -58,7 +91,7 @@ export default function SignIn() {
                 fontFamily:'outfit',
 
             }}> Email </Text>
-            <TextInput  style={styles.input} placeholder='enter Email'></TextInput>
+            <TextInput  style={styles.input} onChangeText={(value)=>setEmail(value)} placeholder='enter Email'></TextInput>
         </View>
 
 
@@ -71,12 +104,12 @@ export default function SignIn() {
                 fontFamily:'outfit',
 
             }}> Password </Text>
-            <TextInput secureTextEntry={true} style={styles.input} placeholder='enter password'></TextInput>
+            <TextInput secureTextEntry={true} style={styles.input} onChangeText={(value)=>setPassword(value)} placeholder='enter password'></TextInput>
         </View>
 
 
         {/* Sign In Button */}
-        <View style={{
+        <TouchableOpacity  onPress={onSignIn} style={{
             padding:20,
             backgroundColor:Colors.PRIMARY,
             borderRadius:15,
@@ -86,7 +119,7 @@ export default function SignIn() {
                 color:Colors.WHITE,
                 textAlign:'center'
             }}>Sign In</Text>
-        </View>
+        </TouchableOpacity>
 
         {/* Create account Button */}
         <TouchableOpacity 
