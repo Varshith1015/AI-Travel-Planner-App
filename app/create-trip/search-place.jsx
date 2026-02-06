@@ -12,23 +12,23 @@ export default function searchPlace() {
     const router =useRouter();
     
     useEffect(()=>{
-        navigation.setOptions({
-            headerShown:true,
-            headerTransparent:true,
-            headerTitle:'Search'
-        })
+      navigation.setOptions({
+        headerShown:true,
+        headerTransparent:true,
+        headerTitle:'Search'
+      })
     },[]);
 
     useEffect(()=>{
-        console.log(tripData);
+      console.log(tripData);
     },[tripData])
 
   return (
     <View style={{
-        padding:25,
-        paddingTop:75,
-        backgroundColor:Colors.WHITE,
-        height:'100%'
+      padding:25,
+      paddingTop:75,
+      backgroundColor:Colors.WHITE,
+      height:'100%'
     }}>
         
       <GooglePlacesAutocomplete
@@ -42,16 +42,15 @@ export default function searchPlace() {
         console.log(details?.url);
 
         setTripData({
-            locationInfo:{
-                name:data.description,
-                coordinates:details?.geometry.location,
-                photoRef:details?.photos[0]?.photo_reference,
-                url:details?.url
-            }
+          locationInfo:{
+            name:data.description,
+            coordinates:details?.geometry.location,
+            photoRef:details?.photos[0]?.photo_reference,
+            url:details?.url
+          }
         })
 
         router.push('/create-trip/Select-Traveller')
-
 
       }} 
       query={{

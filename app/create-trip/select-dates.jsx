@@ -1,10 +1,12 @@
 import { View, Text,TouchableOpacity } from 'react-native'
 import React,{useEffect,useState,useContext} from 'react'
-import {Link, useNavigation,useRouter } from 'expo-router';
+import { useNavigation,useRouter } from 'expo-router';
 import { Colors } from '../../constants/Colours';
 import CalendarPicker from "react-native-calendar-picker";
 import moment from "moment";
 import {CreateTripContext} from "./../../context/CreateTripContext";
+import { ToastAndroid } from 'react-native';
+
 
 export default function SelectDate() {
 
@@ -27,7 +29,7 @@ export default function SelectDate() {
 
   const onDateSelectionContinue=()=>{
     if(!startDate && !endDate){
-      ToastAndroid.show('Please select start and end date')
+      ToastAndroid.show('Please select start and end date',ToastAndroid.BOTTOM)
       return ;
     }
     const totalNoOfDays=endDate.diff(startDate,'days');
@@ -76,8 +78,8 @@ export default function SelectDate() {
         <CalendarPicker
         allowRangeSelection={true}
         minDate={new Date()}
-        // selectedStartDate={startDate}
-        // selectedEndDate={endDate}
+        selectedStartDate={startDate}
+        selectedEndDate={endDate}
         onDateChange={onDateChange}
         maxRangeDuration={5}
         

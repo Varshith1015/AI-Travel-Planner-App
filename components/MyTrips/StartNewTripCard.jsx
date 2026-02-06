@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 
 export default function StartNewTripCard() {
 
-    const router= useRouter();
+  const router= useRouter();
 
   return (
     <View style={{

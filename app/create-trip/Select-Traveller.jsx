@@ -9,9 +9,7 @@ import {CreateTripContext} from "./../../context/CreateTripContext";
 export default function SelectTraveller() {
 
     const navigation = useNavigation();
-
-    const [selectedTraveller,setSelectedTraveller]=useState();
-
+    const [selectedTraveller,setSelectedTraveller]=useState([]);
     const {tripData,setTripData}=useContext(CreateTripContext);
     
     useEffect(()=>{

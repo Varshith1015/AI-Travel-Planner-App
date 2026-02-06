@@ -34,7 +34,6 @@ export default function Login() {
             Discover your next adventure effortlessly. Personalized itineraries at your fingertips.Travel smarter with AI-driven insights.
         </Text>
         <TouchableOpacity style={styles.button} onPress={()=>router.push('auth/sign-in')}>
-            
             <Text style={{
                 color:Colors.WHITE,
                 textAlign:'center',
@@ -42,7 +41,6 @@ export default function Login() {
                 fontSize:17
             }}>Get Started</Text>
         </TouchableOpacity>
-
        </View>
     </View>
   )

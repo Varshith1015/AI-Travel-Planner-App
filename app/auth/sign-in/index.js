@@ -1,6 +1,6 @@
 import { View, Text, TextInput,StyleSheet,TouchableOpacity, ToastAndroid} from 'react-native'
 import React ,{useEffect,useState} from 'react'
-import {useNavigation} from "expo-router"
+import {useNavigation, useLocalSearchParams} from "expo-router"
 import {Colors} from  "./../../../constants/Colours"
 import { useRouter } from 'expo-router'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,10 +8,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "./../../../configs/firebaseConfig";
 
 
-
 export default function SignIn() {
     const navigation = useNavigation()
-    const router=useRouter(); 
+    const router=useRouter();
+    const { redirect } = useLocalSearchParams(); 
     useEffect(()=>{
         navigation.setOptions({
             headerShown:false
@@ -30,9 +30,11 @@ export default function SignIn() {
         }
         signInWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            // Signed in 
+            // Signed in
              const user = userCredential.user;
-             router.replace('/mytrips');
+             // Redirect back to the page that sent us here, or default to mytrips
+             const destination = redirect || '/mytrips';
+             router.replace(destination);
              console.log(user);
             // ...
            })

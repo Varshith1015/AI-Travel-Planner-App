@@ -17,9 +17,9 @@ export default function TabLayout() {
           }}  
         />
         <Tabs.Screen name="discover"
-        options={{
-          tabBarLabel:'Discover',
-          tabBarIcon:({color})=><Ionicons name="globe-sharp" size={24} color="black" />,
+          options={{
+            tabBarLabel:'Discover',
+            tabBarIcon:({color})=><Ionicons name="globe-sharp" size={24} color="black" />,
         }}/>
         <Tabs.Screen name="profile"
         options={{
