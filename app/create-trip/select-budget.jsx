@@ -1,4 +1,4 @@
-import { View, Text,FlatList,TouchableOpacity,ToastAndroid} from 'react-native'
+import { View, Text,FlatList,TouchableOpacity } from 'react-native'
 import React,{useEffect,useState,useContext} from 'react'
 import {useNavigation,useRouter} from "expo-router";
 import { SelectBudgetOptions } from '../../constants/Options';
@@ -30,7 +30,7 @@ export default function selectBudget() {
 
     const onClickContinue=()=>{
         if(!selectedOption){
-            ToastAndroid.show('Select your Budget',ToastAndroid.LONG);
+            ToastAndroid.show('Select your Budget','ToastAndroid.LONG');
             return ;
         }
         router.push('/create-trip/review-trip');

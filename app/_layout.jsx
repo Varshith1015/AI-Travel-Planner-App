@@ -3,6 +3,8 @@ import {useFonts} from "expo-font";
 import {CreateTripContext} from "../context/CreateTripContext";
 import {useState} from "react";
 
+
+
 export default function RootLayout() {
 
   useFonts({
@@ -17,12 +19,13 @@ export default function RootLayout() {
     <CreateTripContext.Provider value={{tripData,setTripData}}>
       <Stack screenOptions={{
         headerShown:false
+        
         }}>
       {/* <Stack.Screen name="index"/> */}
-        <Stack.Screen name="(tabs)"/>
-      </Stack>
-    </CreateTripContext.Provider>    
+      <Stack.Screen name="(tabs)"/>
+    </Stack>
+    </CreateTripContext.Provider>
+    
   );
 }
-
-
+ 

@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { View, ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
+=======
+import { Text, View } from "react-native";
+>>>>>>> parent of cd3fdb5 (Implement UI upto review trip)
 import Login from "./../components/Login.jsx";
 import { auth } from './../configs/firebaseConfig.js';
 import { Redirect } from "expo-router";
@@ -31,8 +35,15 @@ export default function Index() {
       style={{
         flex: 1,
       }}
+<<<<<<< HEAD
     >
       {user ? <Redirect href={'/mytrips'} /> : <Login />}
+=======
+    > 
+      {user?
+        <Redirect href={'/mytrips'}/>:<Login />
+      }
+>>>>>>> parent of cd3fdb5 (Implement UI upto review trip)
     </View>
   );
 }

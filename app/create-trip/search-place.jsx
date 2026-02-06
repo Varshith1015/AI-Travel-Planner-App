@@ -12,6 +12,7 @@ export default function searchPlace() {
     const router =useRouter();
 
     useEffect(()=>{
+<<<<<<< HEAD
       navigation.setOptions({
         headerShown:true,
         headerTransparent:true,
@@ -25,14 +26,25 @@ export default function searchPlace() {
 
     useEffect(()=>{
       console.log('Trip Data:', tripData);
+=======
+        navigation.setOptions({
+            headerShown:true,
+            headerTransparent:true,
+            headerTitle:'Search'
+        })
+    },[]);
+
+    useEffect(()=>{
+        console.log(tripData);
+>>>>>>> parent of cd3fdb5 (Implement UI upto review trip)
     },[tripData])
 
   return (
     <View style={{
-      padding:25,
-      paddingTop:75,
-      backgroundColor:Colors.WHITE,
-      height:'100%'
+        padding:25,
+        paddingTop:75,
+        backgroundColor:Colors.WHITE,
+        height:'100%'
     }}>
       <View style={{ marginTop: 25 }}>
         <GooglePlacesAutocomplete
@@ -47,6 +59,7 @@ export default function searchPlace() {
             console.log('📷 Photo:', details?.photos?.[0]?.photo_reference);
             console.log('🔗 URL:', details?.url);
 
+<<<<<<< HEAD
             setTripData({
               locationInfo:{
                 name:data.description,
@@ -110,6 +123,34 @@ export default function searchPlace() {
           }}
         />
       </View>
+=======
+        setTripData({
+            locationInfo:{
+                name:data.description,
+                coordinates:details?.geometry.location,
+                photoRef:details?.photos[0]?.photo_reference,
+                url:details?.url
+            }
+        })
+
+        router.push('/create-trip/Select-Traveller')
+
+
+      }} 
+      query={{
+        key: process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY,
+        language: 'en',
+      }}
+      styles={{
+        textInputContainer:{
+            borderWidth:1,
+            borderRadius:5,
+            marginTop:25
+
+        }
+      }}
+    />
+>>>>>>> parent of cd3fdb5 (Implement UI upto review trip)
     </View>
   )
 }
