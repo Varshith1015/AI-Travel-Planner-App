@@ -54,7 +54,7 @@ export default function searchPlace() {
 
       }} 
       query={{
-        key: process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY,
+        key: process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY || 'AIzaSyARY3Uu_Bk3CwviHnwt76rPJbC9rHPXJh4',
         language: 'en',
       }}
       styles={{

@@ -28,7 +28,7 @@ export default function SelectDate() {
   };
 
   const onDateSelectionContinue=()=>{
-    if(!startDate && !endDate){
+    if(!startDate || !endDate){
       ToastAndroid.show('Please select start and end date',ToastAndroid.BOTTOM)
       return ;
     }
