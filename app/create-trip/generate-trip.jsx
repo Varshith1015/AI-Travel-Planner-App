@@ -1,4 +1,4 @@
-import { View, Text, Image} from 'react-native'
+import { View, Text, Image, TouchableOpacity} from 'react-native'
 import React,{useContext,useEffect,useState} from 'react'
 import { Colors } from '../../constants/Colours'
 import {CreateTripContext} from "../../context/CreateTripContext";
@@ -13,18 +13,20 @@ export default function GenerateTrip() {
 
     const {tripData,setTripData}=useContext(CreateTripContext);
     const [loading,setLoading]=useState(false);
+    const [hasGenerated,setHasGenerated]=useState(false);
     const router = useRouter();
-    
+
    useEffect(() => {
-    if (tripData) {
+    if (tripData && !hasGenerated) {
         GenerateAiTrip();
     }
     }, [tripData]);
 
     const GenerateAiTrip=async ()=>{
         setLoading(true);
+        setHasGenerated(true);
 
-        
+
 
         try{
             const user= auth.currentUser;
@@ -46,20 +48,45 @@ export default function GenerateTrip() {
                 console.log(FINAL_PROMPT);
 
                 const result=await chatSession.sendMessage(FINAL_PROMPT);
-                console.log(result.response.text());
-                const tripResp = JSON.parse(result.response.text());
-                const docId=(Date.now()).toString();
+                const responseText = result.response.text();
+                console.log('✅ AI Response:', responseText);
 
-                const result_= await setDoc(doc(db,"UserTrips",docId),{
-                    userEmail:user.email,
-                    tripData:tripResp
-                })
+                const tripResp = JSON.parse(responseText);
+                console.log('✅ Parsed JSON:', tripResp);
+
+                const docId=(Date.now()).toString();
+                console.log('📝 Saving to Firestore with ID:', docId);
+                console.log('👤 User email:', user.email);
+
+                // Save to Firestore without blocking (fire and forget)
+                const docRef = doc(db, "UserTrips", docId);
+                setDoc(docRef, {
+                    userEmail: user.email,
+                    tripData: tripResp,
+                    createdAt: new Date().toISOString()
+                }).then(() => {
+                    console.log('✅ Saved to Firestore successfully');
+                }).catch((firestoreError) => {
+                    console.error('❌ Firestore save error:', firestoreError.message);
+                });
+
+                // Clear trip data to prevent re-triggers
+                setTripData(null);
                 setLoading(false);
-                router.push('(tabs)/mytrips')
+
+                // Navigate immediately without waiting for Firestore
+                console.log('🚀 Navigating to trip details page...');
+                console.log('📍 Navigation path:', `/trip-details/${docId}`);
+
+                router.push(`/trip-details/${docId}`);
+
+                console.log('✅ Navigation command executed to trip-details/' + docId);
 
         } catch (error) {
-        console.error("Error generating trip:", error);
-        // Handle error (show alert to user)
+            console.error("❌ Error generating trip:", error);
+            console.error("Error details:", error.message);
+            alert("Failed to generate trip. Please try again.");
+            router.back();
         } finally {
             setLoading(false);
         }    
@@ -100,8 +127,24 @@ export default function GenerateTrip() {
         textAlign:'center'
       }}>Do not go back</Text>
 
-    
+      <TouchableOpacity
+        onPress={() => router.back()}
+        style={{
+          marginTop: 30,
+          backgroundColor: Colors.PRIMARY,
+          padding: 15,
+          borderRadius: 15,
+          alignItems: 'center'
+        }}
+      >
+        <Text style={{
+          fontFamily: 'outfit-medium',
+          fontSize: 16,
+          color: Colors.WHITE
+        }}>Go Back</Text>
+      </TouchableOpacity>
+
     </View>
-  )       
+  )
 };
  
